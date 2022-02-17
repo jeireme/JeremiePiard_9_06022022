@@ -25,8 +25,9 @@ describe("Given I am connected as an employee", () => {
       window.onNavigate(ROUTES_PATH.Bills)
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
-      //to-do write expect expression
 
+      // ? to-do write expect expression :
+      expect(document.getElementById('layout-icon1').classList.contains("active-icon")).toBe(true);
     })
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills })
@@ -34,6 +35,7 @@ describe("Given I am connected as an employee", () => {
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)
       const datesSorted = [...dates].sort(antiChrono)
       
+      // test si le tableau de date est bien ordonné par ordre décroissant
       let sorted = true;
       for (let i = 0; i < datesSorted.length - 1; i++) {
         if (datesSorted[i] < datesSorted[i + 1]) {
@@ -41,7 +43,6 @@ describe("Given I am connected as an employee", () => {
           break;
         }
       }
-      
       expect(sorted).toBe(true)
     })
   })
