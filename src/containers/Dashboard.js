@@ -86,6 +86,10 @@ export default class {
   }
 
   handleEditTicket(e, bill, bills) {
+    
+    // debug de la consultation des tickets
+    if (bill.timeStamp !== undefined && bill.timeStamp === e.timeStamp) return;
+
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id
     if (this.counter % 2 === 0) {
@@ -108,6 +112,9 @@ export default class {
     $('#icon-eye-d').click(this.handleClickIconEye)
     $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
     $('#btn-refuse-bill').click((e) => this.handleRefuseSubmit(e, bill))
+
+    // debug de la consultation des tickets
+    bill.timeStamp = e.timeStamp;
   }
 
   handleAcceptSubmit = (e, bill) => {
@@ -150,7 +157,6 @@ export default class {
     })
 
     return bills
-
   }
 
   getBillsAllUsers = () => {
