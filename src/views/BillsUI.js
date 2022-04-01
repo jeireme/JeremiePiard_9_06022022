@@ -20,11 +20,11 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
+  sortBillsByDate(data);
   return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {
-  
   const modal = () => (`
     <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -47,7 +47,7 @@ export default ({ data: bills, loading, error }) => {
   } else if (error) {
     return ErrorPage(error)
   }
-  
+
   return (`
     <div class='layout'>
       ${VerticalLayout(120)}
@@ -77,4 +77,17 @@ export default ({ data: bills, loading, error }) => {
       ${modal()}
     </div>`
   )
+}
+
+function sortBillsByDate(bills) {
+
+  bills.sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  for (const bill of bills) {
+    let dateFr1 = new Date(bill.date).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: '2-digit' })
+    let dateFr2 = new Date(bill.date).toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+    bill.date = dateFr2;
+  }
 }

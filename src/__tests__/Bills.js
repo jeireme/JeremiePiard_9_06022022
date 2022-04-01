@@ -27,23 +27,25 @@ describe("Given I am connected as an employee", () => {
       const windowIcon = screen.getByTestId('icon-window')
 
       // ? to-do write expect expression :
-      expect(document.getElementById('layout-icon1').classList.contains("active-icon")).toBe(true);
+      expect(document.getElementById('layout-icon1').classList.contains("active-icon")).toBeTruthy();
     })
     test("Then bills should be ordered from earliest to latest", () => {
+
       document.body.innerHTML = BillsUI({ data: bills })
-      const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
+      
+      // ! 2021-11-22 : dates mocked format
+      // * 22/11/2021 : dates displayed format
+
+      // ! const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
+      const dates = screen.getAllByText(/^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/i).map(a => a.innerHTML)
+
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)
       const datesSorted = [...dates].sort(antiChrono)
-      
-      // test si le tableau de date est bien ordonné par ordre décroissant
-      let sorted = true;
-      for (let i = 0; i < datesSorted.length - 1; i++) {
-        if (datesSorted[i] < datesSorted[i + 1]) {
-          sorted = false;
-          break;
-        }
-      }
-      expect(sorted).toBe(true)
+
+      // console.log(dates);
+      // console.log(datesSorted);
+
+      expect(dates).toEqual(datesSorted);
     })
   })
 })
