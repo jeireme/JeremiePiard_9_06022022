@@ -86,8 +86,7 @@ function sortBillsByDate(bills) {
   });
 
   for (const bill of bills) {
-    let dateFr1 = new Date(bill.date).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: '2-digit' })
-    let dateFr2 = new Date(bill.date).toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' })
-    bill.date = dateFr2;
+    let dateFr = new Date(bill.date).toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+    bill.date = dateFr;
   }
 }

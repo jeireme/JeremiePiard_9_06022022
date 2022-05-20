@@ -45,7 +45,7 @@ export const card = (bill) => {
         <span> ${bill.amount} € </span>
       </div>
       <div class='date-type-container'>
-        <span> ${formatDate(bill.date)} </span>
+        <span> ${bill.date} </span>
         <span> ${bill.type} </span>
       </div>
     </div>
@@ -155,7 +155,6 @@ export default class {
     bills.forEach(bill => {
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
     })
-
     return bills
   }
 
@@ -172,7 +171,8 @@ export default class {
           date: doc.date,
           status: doc.status
         }))
-        return bills
+        return filterNullBills(bills)
+        // return bills
       })
       .catch(error => {
         throw error;
@@ -191,4 +191,20 @@ export default class {
       .catch(console.log)
     }
   }
+}
+
+function filterNullBills(bills) {
+  
+  let filteredBills = bills.filter(bill => bill.date != null)
+
+  filteredBills.sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  for (const bill of filteredBills) {
+    let dateFr = new Date(bill.date).toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+    bill.date = dateFr;
+  }
+  
+  return filteredBills
 }

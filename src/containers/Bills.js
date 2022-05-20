@@ -52,8 +52,19 @@ export default class {
               }
             }
           })
-        return bills
+        return filterNullBills(bills)
       })
     }
   }
+}
+
+function filterNullBills(bills) {
+
+  let filteredBills = bills.filter(bill => bill.name != null)
+
+  filteredBills.sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  return filteredBills;
 }
