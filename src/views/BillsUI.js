@@ -81,6 +81,8 @@ export default ({ data: bills, loading, error }) => {
 
 function sortBillsByDate(bills) {
 
+  if (bills == undefined) return;
+
   bills.sort(function (a, b) {
     return new Date(b.date) - new Date(a.date);
   });
