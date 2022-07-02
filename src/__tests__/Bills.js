@@ -58,6 +58,21 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.classList.contains("active-icon")).toBeTruthy();
     });
 
+    test("Then bills should be ordered from earliest to latest", () => {
+      document.body.innerHTML = BillsUI({
+        data: bills,
+      });
+
+      // 2021-11-22 : dates mocked format
+      // 22/11/2021 : dates displayed format
+
+      const dates = screen.getAllByText(/^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/i)
+        .map((a) => a.innerHTML);
+      const antiChrono = (a, b) => (a < b ? 1 : -1);
+      const datesSorted = [...dates].sort(antiChrono);
+      expect(dates).toEqual(datesSorted);
+    });
+
     describe("When I click on the button Nouvelle note de frais", () => {
       test("it should open call handleClickNewBill()", async () => {
         document.body.innerHTML = BillsUI({
